@@ -21,14 +21,14 @@ app.get("/balance/:address", (req, res) => {
 app.post("/send", (req, res) => {
   const { sender, recipient, amount } = req.body;
 
-  setInitialBalance(sender);
-  setInitialBalance(recipient);
+  const senderBalance = balances[sender] ?? 0;
+  const recipientBalance = balances[recipient] ?? 0 ;
 
-  if (balances[sender] < amount) {
+  if (senderBalance < amount) {
     res.status(400).send({ message: "Not enough funds!" });
   } else {
-    balances[sender] -= amount;
-    balances[recipient] += amount;
+    balances[sender] = senderBalance - amount;
+    balances[recipient] = recipientBalance + amount;
     res.send({ balance: balances[sender] });
   }
 });
@@ -36,9 +36,3 @@ app.post("/send", (req, res) => {
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`);
 });
-
-function setInitialBalance(address) {
-  if (!balances[address]) {
-    balances[address] = 0;
-  }
-}
