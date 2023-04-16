@@ -1,6 +1,9 @@
 import server from "./server";
+import {useState} from "react";
 
-function Wallet({ address, setAddress, balance, setBalance }) {
+function Wallet() {
+  const [address, setAddress] = useState("");
+  const [balance, setBalance] = useState(0);
   async function onChange(evt) {
     const address = evt.target.value;
     setAddress(address);
@@ -16,7 +19,7 @@ function Wallet({ address, setAddress, balance, setBalance }) {
 
   return (
     <div className="container wallet">
-      <h1>Your Wallet</h1>
+      <h1>Wallet explorer</h1>
 
       <label>
         Wallet Address
